@@ -61,8 +61,14 @@ def load_data(file):
     
     try:
         if file_name.endswith('.csv'):
-            return pd.read_csv(file)
-            
+            # First attempt: standard UTF-8 encoding
+            try:
+                return pd.read_csv(file, encoding='utf-8')
+            except UnicodeDecodeError:
+                # If it fails, reset the file pointer to the beginning and try Latin-1
+                file.seek(0)
+                return pd.read_csv(file, encoding='latin1')
+                
         elif file_name.endswith('.xlsx'):
             # Requires 'openpyxl' engine
             return pd.read_excel(file, engine='openpyxl')
@@ -83,8 +89,9 @@ def load_data(file):
                     df.dropna(how='all', inplace=True)
                     return df
                 else:
-                    st.error(f" Could not find a readable table in {file.name}.")
+                    st.error(f"⚠️ Could not find a readable table in {file.name}.")
                     return None
+                    
     except Exception as e:
         st.error(f"Error reading {file.name}: {e}")
         return None
