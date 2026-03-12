@@ -108,8 +108,12 @@ if coachee_file and mentor_file:
                 st.stop() # Stops execution if a file couldn't be read
             
             # Load Data
-            coachee_df = pd.read_csv(coachee_file)
-            mentor_df = pd.read_csv(mentor_file)
+            coachee_df = load_data(coachee_file)
+            mentor_df = load_data(mentor_file)
+            
+            # Stop the app from crashing if the data couldn't be loaded
+            if coachee_df is None or mentor_df is None:
+                st.stop()
             
             # Preprocess
             coachee_df['Batch'] = coachee_df['Map Code/Coachee mapping'].astype(str).apply(lambda x: x.split('-')[1] if '-' in x else '0')
