@@ -6,13 +6,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import io
 import pdfplumber
 
-# --- PAGE SETUP ---
-st.set_page_config(page_title="Human Pair matching", layout="wide")
-st.title(" Human pair Matching Algorithm")
-st.markdown("Upload your human responsce datasets for pair matching.")
+# Page Setup 
+st.set_page_config(page_title="Mentor Coachee Pair Matching", layout="wide")
+st.title(" Mentor Coachee Pair Match", anchor="center")
+st.markdown("Upload the mentor and coachee responsce datasets for pair matching.")
+st.markdown("\nNote: The coachee and metor data must me prepared in separate sheets.")
 
-# --- SIDEBAR: WEIGHT ADJUSTMENTS ---
-st.sidebar.header("⚙️ Adjust Algorithm Weights")
+# Sidebar: weight adjustement
+st.sidebar.header("⚙️ Adjust matching critaria Weights")
 st.sidebar.markdown("**Hard Skills (Default 40%)**")
 w_spec = st.sidebar.slider("Specialisation Weight", 0.0, 1.0, 0.25)
 w_deg = st.sidebar.slider("Degree Weight", 0.0, 1.0, 0.15)
