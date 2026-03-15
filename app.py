@@ -100,7 +100,7 @@ w_deg = st.sidebar.slider(
 # Soft Skills ( Professional goals, Personal interests, IIT experience, Background & Values)
 
 w_prof = st.sidebar.slider(
-    "Professional or careen Match level",
+    "Professional or career Match level",
     min_value=0.0, max_value=1.0, value=0.20, step=0.05,
     help=(
         "**Professional Match**\n\n"
@@ -116,11 +116,9 @@ w_pers = st.sidebar.slider(
     min_value=0.0, max_value=1.0, value=0.15, step=0.05,
     help=(
         "**Personal Fit**\n\n"
-        "Compares the coachee's *Top 3 Interests* and *Main Passions* against the "
-        "mentor's *Interests*.\n\n"
-        "Captures shared hobbies, extracurriculars, and personal motivations — "
-        "such as music, sports, social impact, or entrepreneurship.\n\n"
-        "📌 *Increase this weight if personal rapport and shared hobbies are a priority.*"
+        "Matches the coachee's *Top 3 Interests* and *Main Passions* with the mentor's *Interests*.\n\n"
+        "Captures shared hobbies, extracurriculars, and personal motivations such as music, hobbies like Reading, specific genre sports, social impact.\n\n"
+        "📌 *Adjust the weight accordingly.*"
     )
 )
 
