@@ -69,10 +69,10 @@ st.sidebar.markdown(
 # Hard Skills (Degree & Specialisation)
 
 w_spec = st.sidebar.slider(
-    "Area of Specialisation level",
+    "Area of Specialisation Match",
     min_value=0.0, max_value=1.0, value=0.25, step=0.05,
     help=(
-        "**Specialisation Match**\n\n"
+        "**Area of Specialisation Match**\n\n"
         "Evaluates how closely the coachee's branch of study at IIT Madras aligns with the mentor's area of professional specialisation.\n\n"
         "1. The number of branches (areas of specialisation) at IIT Madras have increased over the years.\n\n"
         "2. Applied mechanics was a part of mechanical engineering.\n\n" \
@@ -83,10 +83,10 @@ w_spec = st.sidebar.slider(
 )
 
 w_deg = st.sidebar.slider(
-    "Degree match level",
+    "Degree Match",
     min_value=0.0, max_value=1.0, value=0.15, step=0.05,
     help=(
-        "**Degree Persuing**\n\n"
+        "**Degree Match**\n\n"
         "Matechs the academic level of the coachee's current programme with the mentor's degree in IIT Madras or from other Institute:\n\n"
         "1. The degree broadly grouped in Undergraduate, Dual Degree, Masters, MBA, PhD.\n\n"
         "2. The Degree will be matched with similar degree if satisfies otherwise will look for other degree if other critatia matched. \n\n"
@@ -100,37 +100,35 @@ w_deg = st.sidebar.slider(
 # Soft Skills ( Professional goals, Personal interests, IIT experience, Background & Values)
 
 w_prof = st.sidebar.slider(
-    "Professional or career Match level",
+    "Professional or career Match",
     min_value=0.0, max_value=1.0, value=0.20, step=0.05,
     help=(
-        "**Professional Match**\n\n"
-        "Uses coachee's Career Plan to match with the mentor's Career Snapshot.\n\n"
-        "The critaria identifies shared professional keywords such as industry, role type, and goals such as both mentioning"
+        "**Professional or career Match**\n\n"
+        "1. Uses coachee's Career Plan to match with the mentor's Career Snapshot.\n\n"
+        "2. The critaria identifies shared professional keywords such as industry, role type, and goals such as both mentioning"
          "product management , startups or 'research.\n\n"
         "📌 *Adjust the weight accordingly.*"
     )
 )
 
 w_pers = st.sidebar.slider(
-    "Personal Fit",
+    "Personal Fit Match",
     min_value=0.0, max_value=1.0, value=0.15, step=0.05,
     help=(
-        "**Personal Fit**\n\n"
-        "Matches the coachee's *Top 3 Interests* and *Main Passions* with the mentor's *Interests*.\n\n"
-        "Captures shared hobbies, extracurriculars, and personal motivations such as music, hobbies like Reading, specific genre sports, social impact.\n\n"
+        "**Personal Fit Match**\n\n"
+        "1. Matches the shared coachee's *Top 3 Interests* and *Main Passions* with the mentor's *Interests*.\n\n"
+        "2. Captures shared hobbies, extracurriculars, and personal motivations such as music, hobbies like Reading, specific genre sports, social impact.\n\n"
         "📌 *Adjust the weight accordingly.*"
     )
 )
 
 w_iit = st.sidebar.slider(
-    "IIT Context",
+    "IIT Experience Match",
     min_value=0.0, max_value=1.0, value=0.15, step=0.05,
     help=(
-        "**IIT Context**\n\n"
-        "Analyses the coachee's *IIT Trajectory* and *Career Plan* alongside the "
-        "mentor's *IIT Experience*.\n\n"
-        "Captures shared campus experiences — clubs, research labs, academic challenges, "
-        "or campus life narratives.\n\n"
+        "**IIT Experience Match**\n\n"
+        "Analyses the  shared IIT experiences of coachee's *IIT Trajectory* and *Career Plan* alongside the mentor's *IIT Experience*.\n\n"
+        "Both discuss campus life, clubs, academic struggles/ challenges, campus life and specific IIT Madras hostels or events.\n\n"
         "📌 *Increase this weight to connect coachees with mentors who had similar IIT journeys.*"
     )
 )
