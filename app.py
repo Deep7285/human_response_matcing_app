@@ -69,7 +69,7 @@ st.sidebar.markdown(
 # Hard Skills (Degree & Specialisation)
 
 w_spec = st.sidebar.slider(
-    "Area of Specialisation",
+    "Area of Specialisation level",
     min_value=0.0, max_value=1.0, value=0.25, step=0.05,
     help=(
         "**Specialisation Match**\n\n"
@@ -83,7 +83,7 @@ w_spec = st.sidebar.slider(
 )
 
 w_deg = st.sidebar.slider(
-    "Degree Weight",
+    "Degree match level",
     min_value=0.0, max_value=1.0, value=0.15, step=0.05,
     help=(
         "**Degree Persuing**\n\n"
@@ -100,7 +100,7 @@ w_deg = st.sidebar.slider(
 # Soft Skills ( Professional goals, Personal interests, IIT experience, Background & Values)
 
 w_prof = st.sidebar.slider(
-    "Professional Match",
+    "Professional or careen Match level",
     min_value=0.0, max_value=1.0, value=0.20, step=0.05,
     help=(
         "**Professional Match**\n\n"
