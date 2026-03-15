@@ -127,22 +127,20 @@ w_iit = st.sidebar.slider(
     min_value=0.0, max_value=1.0, value=0.15, step=0.05,
     help=(
         "**IIT Experience Match**\n\n"
-        "Analyses the  shared IIT experiences of coachee's *IIT Trajectory* and *Career Plan* alongside the mentor's *IIT Experience*.\n\n"
-        "Both discuss campus life, clubs, academic struggles/ challenges, campus life and specific IIT Madras hostels or events.\n\n"
-        "📌 *Increase this weight to connect coachees with mentors who had similar IIT journeys.*"
+        "1. Analyses the  shared IIT experiences of coachee's *IIT Trajectory* and *Career Plan* alongside the mentor's *IIT Experience*.\n\n"
+        "2. Both discuss campus life, clubs, academic struggles/ challenges, campus life and specific IIT Madras hostels or events.\n\n"
+        "📌 *Adjust the weight accordingly.*"
     )
 )
 
 w_back = st.sidebar.slider(
-    "Background & Values",
+    "Family Background & Inspration Match",
     min_value=0.0, max_value=1.0, value=0.10, step=0.05,
     help=(
-        "**Background & Values**\n\n"
-        "Compares the coachee's *Family Info & Schooling* and *Role Models* with the "
-        "mentor's *Growing Up Years*.\n\n"
-        "Surfaces shared socioeconomic backgrounds, hometown/regional similarity, "
-        "first-generation student status, and core value alignment.\n\n"
-        "📌 *Increase this weight for a deeper personal and cultural match.*"
+        "**Family Background & Inspration Match**\n\n"
+        "1. Matches the coachee’s home-town and growing up years prior to IIT Madras and Role Models with the mentor's *Growing Up Years*.\n\n"
+        "2. The information help in matching mentor-coach who has a similar ethnic or family background.\n\n"
+        "📌 *Adjust the weight accordingly.*"
     )
 )
 
@@ -150,14 +148,16 @@ w_back = st.sidebar.slider(
 st.sidebar.markdown("### Gender Preference")
 
 bonus_female = st.sidebar.slider(
-    "Female-to-Female Bonus",
+    "Gender Preference Matches",
     min_value=0.0, max_value=0.5, value=0.10, step=0.05,
     help=(
-        "**Female-to-Female Bonus**\n\n"
-        "Adds a small score boost when both the coachee and the mentor identify as female.\n\n"
-        "Promotes gender-inclusive mentoring and helps ensure female coachees have access "
-        "to same-gender mentor role models.\n\n"
-        "📌 *Adjust this to control the strength of gender-preference pairing.*"
+        "**Gender Preference Matches**\n\n"
+        "1. The female coachees avialability is usually higher than female mentor-coaches. Therefore the there should be a preferences to "
+        "pair as many female coachees as possible with a female mentor coach who has the best matching critarias with mentors. But this should not be a hard requirement.\n\n"
+        "2. This Adds a small score boost when both the coachee and the mentor identify as female.\n\n"
+        "3. The remaining female coachees will be paired with a male mentor coach.\n\n"
+        "4. The Weitage of gender prefereces usually kept low for not to suppress the other important critaria.\n\n"
+        "📌 *Adjust the weight accordingly.*"
     )
 )
 
