@@ -104,11 +104,10 @@ w_prof = st.sidebar.slider(
     min_value=0.0, max_value=1.0, value=0.20, step=0.05,
     help=(
         "**Professional Match**\n\n"
-        "Uses NLP (TF-IDF + cosine similarity) to compare the coachee's *Career Plan* "
-        "with the mentor's *Career Snapshot*.\n\n"
-        "It identifies shared professional keywords such as industry, role type, and goals — "
-        "e.g., both mentioning 'product management', 'startups', or 'research'.\n\n"
-        "📌 *Increase this weight to prioritise career-goal alignment.*"
+        "Uses coachee's Career Plan to match with the mentor's Career Snapshot.\n\n"
+        "The critaria identifies shared professional keywords such as industry, role type, and goals such as both mentioning"
+         "product management , startups or 'research.\n\n"
+        "📌 *Adjust the weight accordingly.*"
     )
 )
 
