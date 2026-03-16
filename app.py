@@ -134,10 +134,10 @@ w_iit = st.sidebar.slider(
 )
 
 w_back = st.sidebar.slider(
-    "Family Background & Inspration Match",
+    "Family Background & Inspirations Match",
     min_value=0.0, max_value=1.0, value=0.10, step=0.05,
     help=(
-        "**Family Background & Inspration Match**\n\n"
+        "**Family Background & Inspirations Match**\n\n"
         "1. Matches the coachee’s home-town and growing up years prior to IIT Madras and Role Models with the mentor's *Growing Up Years*.\n\n"
         "2. The information help in matching mentor-coach who has a similar ethnic or family background.\n\n"
         "📌 *Adjust the weight accordingly.*"
@@ -161,18 +161,18 @@ bonus_female = st.sidebar.slider(
     )
 )
 
-# ── Live Weight Summary ────────────────────────────────────────────────────────
-total_w = w_spec + w_deg + w_prof + w_pers + w_iit + w_back
+# Weight Summary 
+weighted_matrix = w_spec + w_deg + w_prof + w_pers + w_iit + w_back
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 📊 Current Weight Summary")
+st.sidebar.markdown("### 📊 Matching critaria Current Weight Summary")
 
 weight_data = {
-    "Criterion": ["Specialisation", "Degree", "Professional", "Personal", "IIT Context", "Background"],
+    "Criterion": ["Area of Specialisation", "Degree", "Professional or Career", "Personal Fit", "IIT Experience", "Family Background & Inspirations", "Gender Preference"],
     "Weight":    [w_spec, w_deg, w_prof, w_pers, w_iit, w_back],
 }
 weight_df = pd.DataFrame(weight_data)
 weight_df["Share (%)"] = (
-    (weight_df["Weight"] / total_w * 100).round(1) if total_w > 0 else 0
+    (weight_df["Weight"] / weighted_matrix * 100).round(1) if weighted_matrix > 0 else 0
 )
 st.sidebar.dataframe(
     weight_df.set_index("Criterion"),
@@ -180,13 +180,13 @@ st.sidebar.dataframe(
     height=235,
 )
 
-if abs(total_w - 1.0) > 0.01:
+if abs(weighted_matrix - 1.0) > 0.01:
     st.sidebar.warning(
-        f"⚠️ Weights sum to **{total_w:.2f}** (not 1.0). "
+        f"⚠️ Weights sum to **{weighted_matrix:.2f}** (not 1.0). "
         "Scores are still valid but consider normalising for best results."
     )
 else:
-    st.sidebar.success(f"✅ Weights sum to **{total_w:.2f}** — balanced!")
+    st.sidebar.success(f"✅ Weights sum to **{weighted_matrix:.2f}** — balanced!")
 
 # ─── Helper Functions ──────────────────────────────────────────────────────────
 def clean(text):
