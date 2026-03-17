@@ -106,7 +106,7 @@ w_prof = st.sidebar.slider(
         "**Professional or career Match**\n\n"
         "1. Uses coachee's Career Plan to match with the mentor's Career Snapshot.\n\n"
         "2. The critaria identifies shared professional keywords such as industry, role type, and goals such as both mentioning"
-         "product management , startups or 'research.\n\n"
+         " product management , startups or 'research.\n\n"
         "📌 *Adjust the weight accordingly.*"
     )
 )
