@@ -4,3 +4,5 @@ numpy
 scikit-learn
 openpyxl
 pdfplumber
+sentence-transformers
+torch
