@@ -299,9 +299,9 @@ st.markdown("---")
 st.markdown("### ⚙️ Select Matching Technique")
 engine_choice = st.radio(
     "Choose the algorithm to run:",
-    ("Standard TF-IDF Technique", "Advanced Semantic Embedding based"),
-    help="1. Standard TF-IDF Technique uses exact keyword matching and static weights in the data.\n\n"
-    "2. Advanced Semantic Embedding based uses sentance transformer for context, redistributes weights for blank fields, and optimizes mentor capacity globally.\n\n"
+    ("Standard Word Match Technique", "Advanced Semantic Context based Technique"),
+    help="1. Standard Word Match uses exact keyword matching using TF-IDF, cosine similarity and static weights to process and match the data.\n\n"
+    "2. Advanced Semantic Context based uses sentance transformer for context match rather word match, redistributes weights for blank fields, and optimizes mentor capacity globally.\n\n"
 )
 
 if coachee_file and mentor_file:
@@ -309,7 +309,7 @@ if coachee_file and mentor_file:
         
         # Determine specific messages and file names
         is_advanced = "Advanced" in engine_choice
-        loading_msg = "🧠 Running Advanced Semantic Embedding based Analysis (this may take 30-60 seconds)" if is_advanced else "📊 Running Standard TF-IDF Analysis..."
+        loading_msg = "🧠 Running Advanced Semantic Context based Analysis (this may take 30-60 seconds)" if is_advanced else "📊 Running Standard Word Match Analysis..."
         file_suffix = "Semantic_Advanced" if is_advanced else "TF-IDF_Standard"
         
         with st.spinner(loading_msg):
