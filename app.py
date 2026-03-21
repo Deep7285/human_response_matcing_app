@@ -284,7 +284,7 @@ with col1:
 with col2:
     st.markdown('<div class="upload-label">👨‍💼 Mentor Data</div>', unsafe_allow_html=True)
     mentor_file = st.file_uploader(
-        "Upload Mentor responses",
+        "Upload Mentor response sheet",
         type=['csv', 'xlsx', 'pdf'],
         label_visibility="collapsed",
         key="mentor_upload",
@@ -296,10 +296,10 @@ with col2:
 # Run Matching Algorithm
 st.markdown("---")
 
-st.markdown("### ⚙️ Select Matching Technique")
+st.markdown("### ⚙️ Select Pair Matching Technique")
 engine_choice = st.radio(
     "Choose the algorithm to run:",
-    ("Standard Word Match Technique", "Advanced Semantic Context based Technique"),
+    ("Standard Word Match Technique", "Advanced Semantic Context Based Technique"),
     help="1. Standard Word Match uses exact keyword matching using TF-IDF, cosine similarity and static weights to process and match the data.\n\n"
     "2. Advanced Semantic Context based uses sentance transformer for context match rather word match, redistributes weights for blank fields, and optimizes mentor capacity globally.\n\n"
 )
