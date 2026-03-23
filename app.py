@@ -539,10 +539,10 @@ else:
                     border-radius:12px; border:2px dashed #cbd5e1; color:#64748b;">
             <div style="font-size:2.5rem;">📁</div>
             <div style="font-size:1.1rem; font-weight:600; margin-top:8px;">
-                Upload both files above to get started
+                Upload both coachee and mentor datasheets to get started
             </div>
             <div style="font-size:0.9rem; margin-top:6px;">
-                Load your Coachee and Mentor datasets, select your Engine, then click <strong>Run Matching Algorithm</strong>.
+                Load your Coachee and Mentor datasets, select your matching pair technique, then click <strong>Run Matching Algorithm</strong>.
             </div>
         </div>
         """,
