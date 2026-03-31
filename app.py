@@ -322,6 +322,7 @@ if coachee_file and mentor_file:
                 st.stop()
 
             # data preprocessing and feature engineering for both coachee and mentor dataframes
+            # Preprocessing
             coachee_df['Batch'] = coachee_df['Map Code/Coachee mapping'].astype(str).apply(lambda x: x.split('-')[1] if '-' in x else '0')
             mentor_df['Batch']  = mentor_df['Mentor ID'].astype(str).apply(lambda x: x.split('-')[1] if '-' in x else '0')
 
@@ -330,17 +331,19 @@ if coachee_file and mentor_file:
             coachee_df['Branch_Grp'] = coachee_df['Branch at IIT Madras'].apply(lambda x: get_group(x, c_branch_map))
             mentor_df['Spec_Grp']    = mentor_df['Specialisation'].apply(lambda x: get_group(x, m_spec_map))
 
-            def combine(df, cols):
-                return df[cols].fillna('').apply(lambda x: ' '.join(x), axis=1).apply(clean)
+            # Decoupuled the columns (For Granular Column Matching)
+            coachee_df['Txt_Prof']  = coachee_df['Career plan'].apply(clean)
+            coachee_df['Txt_Pers1'] = coachee_df['Top 3 interests'].apply(clean)
+            coachee_df['Txt_Pers2'] = coachee_df['Main passions'].apply(clean)
+            coachee_df['Txt_IIT1']  = coachee_df['IIT trajectory'].apply(clean)
+            coachee_df['Txt_IIT2']  = coachee_df['Career plan'].apply(clean)
+            coachee_df['Txt_Back1'] = coachee_df['Family info and schooling'].apply(clean)
+            coachee_df['Txt_Back2'] = coachee_df['Roll Models'].apply(clean)
 
-            coachee_df['Txt_Prof'] = coachee_df['Career plan'].apply(clean)
-            mentor_df['Txt_Prof']  = mentor_df['Career snapshot'].apply(clean)
-            coachee_df['Txt_Pers'] = combine(coachee_df, ['Top 3 interests', 'Main passions'])
-            mentor_df['Txt_Pers']  = mentor_df['Interests'].apply(clean)
-            coachee_df['Txt_IIT']  = combine(coachee_df, ['IIT trajectory', 'Career plan'])
-            mentor_df['Txt_IIT']   = mentor_df['IIT experience'].apply(clean)
-            coachee_df['Txt_Back'] = combine(coachee_df, ['Family info and schooling', 'Roll Models'])
-            mentor_df['Txt_Back']  = mentor_df['Growing up years'].apply(clean)
+            mentor_df['Txt_Prof']   = mentor_df['Career snapshot'].apply(clean)
+            mentor_df['Txt_Pers']   = mentor_df['Interests'].apply(clean)
+            mentor_df['Txt_IIT']    = mentor_df['IIT experience'].apply(clean)
+            mentor_df['Txt_Back']   = mentor_df['Growing up years'].apply(clean)
 
             def normalize(arr):
                 if len(arr) < 2 or arr.max() == 0: return arr
