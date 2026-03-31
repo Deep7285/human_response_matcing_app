@@ -348,7 +348,7 @@ if coachee_file and mentor_file:
             def normalize(arr):
                 if len(arr) < 2 or arr.max() == 0: return arr
                 return (arr - arr.min()) / (arr.max() - arr.min())
-
+            
             final_matches = []
 
         
@@ -356,11 +356,10 @@ if coachee_file and mentor_file:
 
             if not is_advanced:
                 
-                # Fit TF-IDF Vectors
                 vec_prof = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_Prof'], mentor_df['Txt_Prof']]))
-                vec_pers = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_Pers'], mentor_df['Txt_Pers']]))
-                vec_iit  = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_IIT'], mentor_df['Txt_IIT']]))
-                vec_back = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_Back'], mentor_df['Txt_Back']]))
+                vec_pers = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_Pers1'], coachee_df['Txt_Pers2'], mentor_df['Txt_Pers']]))
+                vec_iit  = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_IIT1'], coachee_df['Txt_IIT2'], mentor_df['Txt_IIT']]))
+                vec_back = TfidfVectorizer(stop_words='english').fit(pd.concat([coachee_df['Txt_Back1'], coachee_df['Txt_Back2'], mentor_df['Txt_Back']]))
 
                 for idx, c_row in coachee_df.iterrows():
                     c_id = c_row['Map Code/Coachee mapping']
@@ -370,10 +369,26 @@ if coachee_file and mentor_file:
                     candidates = mentor_df[mentor_df['Batch'] == batch].copy()
                     if candidates.empty: continue
                     
-                    s_prof = normalize(cosine_similarity(vec_prof.transform([c_row['Txt_Prof']]), vec_prof.transform(candidates['Txt_Prof'])).flatten())
-                    s_pers = normalize(cosine_similarity(vec_pers.transform([c_row['Txt_Pers']]), vec_pers.transform(candidates['Txt_Pers'])).flatten())
-                    s_iit  = normalize(cosine_similarity(vec_iit.transform([c_row['Txt_IIT']]), vec_iit.transform(candidates['Txt_IIT'])).flatten())
-                    s_back = normalize(cosine_similarity(vec_back.transform([c_row['Txt_Back']]), vec_back.transform(candidates['Txt_Back'])).flatten())
+                    # Transform Mentor Batch
+                    m_v_prof = vec_prof.transform(candidates['Txt_Prof'])
+                    m_v_pers = vec_pers.transform(candidates['Txt_Pers'])
+                    m_v_iit  = vec_iit.transform(candidates['Txt_IIT'])
+                    m_v_back = vec_back.transform(candidates['Txt_Back'])
+
+                    # Transform Coachee & Calculate Sub-Scores
+                    raw_prof  = cosine_similarity(vec_prof.transform([c_row['Txt_Prof']]), m_v_prof).flatten()
+                    raw_pers1 = cosine_similarity(vec_pers.transform([c_row['Txt_Pers1']]), m_v_pers).flatten()
+                    raw_pers2 = cosine_similarity(vec_pers.transform([c_row['Txt_Pers2']]), m_v_pers).flatten()
+                    raw_iit1  = cosine_similarity(vec_iit.transform([c_row['Txt_IIT1']]), m_v_iit).flatten()
+                    raw_iit2  = cosine_similarity(vec_iit.transform([c_row['Txt_IIT2']]), m_v_iit).flatten()
+                    raw_back1 = cosine_similarity(vec_back.transform([c_row['Txt_Back1']]), m_v_back).flatten()
+                    raw_back2 = cosine_similarity(vec_back.transform([c_row['Txt_Back2']]), m_v_back).flatten()
+
+                    # Average sub-scores for normalization
+                    s_prof = normalize(raw_prof)
+                    s_pers = normalize((raw_pers1 + raw_pers2) / 2.0)
+                    s_iit  = normalize((raw_iit1 + raw_iit2) / 2.0)
+                    s_back = normalize((raw_back1 + raw_back2) / 2.0)
 
                     scores = []
                     for i, (m_idx, m_row) in enumerate(candidates.iterrows()):
@@ -384,7 +399,24 @@ if coachee_file and mentor_file:
                         if 'female' in c_gender and 'female' in clean(m_row.get('Gender', '')): total += bonus_female
                             
                         details_str = f"(Tot:{total:.2f}), (H:SP{int(sc_spec)}D{int(sc_deg)}), (S:Pr{s_prof[i]:.1f}, Pe{s_pers[i]:.1f}, IX{s_iit[i]:.1f}, FB{s_back[i]:.1f})"
-                        scores.append({'id': m_row['Mentor ID'], 'score': total, 'details': details_str})
+                        
+                        # --- GENERATE MATCHED COLUMNS STRING ---
+                        ch_cols, mc_cols = [], []
+                        if sc_spec > 0: ch_cols.append("Branch at IIT Madras"); mc_cols.append("Specialisation")
+                        if sc_deg > 0:  ch_cols.append("Program at IIT Madras"); mc_cols.append("Degree")
+                        if raw_prof[i] > 0.03:  ch_cols.append("Career plan"); mc_cols.append("Career snapshot")
+                        if raw_pers1[i] > 0.03: ch_cols.append("Top 3 interests"); mc_cols.append("Interests")
+                        if raw_pers2[i] > 0.03: ch_cols.append("Main passions"); mc_cols.append("Interests")
+                        if raw_iit1[i] > 0.03:  ch_cols.append("IIT trajectory"); mc_cols.append("IIT experience")
+                        if raw_iit2[i] > 0.03:  ch_cols.append("Career plan"); mc_cols.append("IIT experience")
+                        if raw_back1[i] > 0.03: ch_cols.append("Family info and schooling"); mc_cols.append("Growing up years")
+                        if raw_back2[i] > 0.03: ch_cols.append("Role Models"); mc_cols.append("Growing up years")
+                        
+                        ch_cols = list(dict.fromkeys(ch_cols))
+                        mc_cols = list(dict.fromkeys(mc_cols))
+                        desc_str = f"(CH: {', '.join(ch_cols)}), (MC: {', '.join(mc_cols)})" if ch_cols else "No significant column overlap"
+
+                        scores.append({'id': m_row['Mentor ID'], 'score': total, 'details': details_str, 'desc': desc_str})
 
                     scores.sort(key=lambda x: x['score'], reverse=True)
                     top3, seen = [], set()
@@ -399,14 +431,16 @@ if coachee_file and mentor_file:
                             row[f'Option {k+1} Mentor ID']  = top3[k]['id']
                             row[f'Option {k+1} Score (%)']  = round(top3[k]['score'] * 100, 1)
                             row[f'Option {k+1} Details']    = top3[k]['details']
+                            row[f'Option {k+1} Matched Columns'] = top3[k]['desc']
                         else:
                             row[f'Option {k+1} Mentor ID']  = "N/A"
                             row[f'Option {k+1} Score (%)']  = "—"
                             row[f'Option {k+1} Details']    = "N/A"
+                            row[f'Option {k+1} Matched Columns'] = "N/A"
                     final_matches.append(row)
 
 
-           
+        
             # Algorithm: Advanced semantic (Sentence transformer + Dynamic Weights + Global Capacity Optimization)
             else:
                 # Encode Semantic Vectors globally
